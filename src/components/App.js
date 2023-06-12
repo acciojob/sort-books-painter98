@@ -9,6 +9,7 @@ const App = () => {
   useEffect(()=>{
     console.log('inside useEffect')
     dispatch(fetchApi())
+    data.sort((a,b)=>(a.title < b.title) ? -1 : ((b.title > a.title) ? 1 : 0));
   },[]);
 
   let loading = useSelector((state) => state.loading);
@@ -39,17 +40,25 @@ const App = () => {
   return (
     <div>
         {/* Do not remove the main div */}
+        <h1>Books List</h1>
+        <table>
         {data.map((book)=>{
           return (
-            <div key={book.id}>
-              <h1>{book.title}</h1>
-              <h4>{book.authors}</h4>
-              <p>{book.url}</p>
-            </div>
+            <tbody key={book.id}>
+              <tr>
+              <th>{book.title}</th>
+              <td>{book.authors}</td>
+              <td>{book.url}</td>
+            </tr>
+            </tbody>
           )
         })}
-        <button onClick={()=>sorting('title')}>Sort by Title</button>
-        <button onClick={()=>sorting('authors')}>Sort by Authors</button>
+        </table>
+        <label>sort by</label>
+        <select>
+          <option onSelect={()=>sorting('title')}>title</option>
+          <option onSelect={()=>sorting('authors')}>authors</option>
+        </select>
     </div>
   )
 }
